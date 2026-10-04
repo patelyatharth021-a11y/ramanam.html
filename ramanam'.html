@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramanam Cafe Bengaluru | Authentic South Indian Heritage</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins & Rozha One for traditional rich look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Rozha+One&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            brass: '#B8860B',
+                            terracotta: '#8B3A2B',
+                            deepred: '#5C1D18',
+                            leaf: '#2E7D32',
+                            lightleaf: '#E8F5E9',
+                            cream: '#FFFDD0',
+                            sand: '#FDFBF7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        heritage: ['Rozha One', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Heritage Kolam & Pattern Effects */
+        .kolam-bg {
+            background-color: #5C1D18;
+            background-image: radial-gradient(#D4AF37 0.75px, transparent 0.75px), radial-gradient(#D4AF37 0.75px, #5C1D18 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+        .banana-leaf-card {
+            background: linear-gradient(135deg, #1e5823 0%, #2E7D32 50%, #1b4d1f 100%);
+            box-shadow: 0 10px 25px -5px rgba(46, 125, 50, 0.4);
+        }
+        .kaapi-steam {
+            animation: steam 2s infinite ease-out;
+        }
+        @keyframes steam {
+            0% { transform: translateY(0) scaleX(1); opacity: 0.8; }
+            50% { transform: translateY(-10px) scaleX(1.2); opacity: 0.5; }
+            100% { transform: translateY(-20px) scaleX(1.5); opacity: 0; }
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDFBF7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #B8860B;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-brand-sand text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-brand-deepred text-brand-gold text-xs sm:text-sm py-2 px-4 text-center font-medium tracking-wide flex items-center justify-center gap-2 border-b border-brand-gold/30">
+        <i class="fa-solid fa-utensils"></i>
+        <span>Namaskara Bengaluru! Fresh Batch of Filter Kaapi & Crispy Benne Dosa Served All Day on Fresh Banana Leaves!</span>
+        <i class="fa-solid fa-leaf text-brand-leaf ml-1"></i>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-md transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 rounded-full bg-brand-deepred flex items-center justify-center text-brand-gold border-2 border-brand-gold shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-mug-hot text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-heritage text-2xl font-bold text-brand-deepred tracking-wide block leading-none">Ramanam Cafe</span>
+                        <span class="text-[10px] text-brand-brass font-bold uppercase tracking-widest block mt-1">Namma Bengaluru Heritage</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center gap-8 font-medium text-gray-700">
+                    <a href="#home" class="hover:text-brand-terracotta transition-colors py-1 border-b-2 border-transparent hover:border-brand-terracotta">Home</a>
+                    <a href="#menu" class="hover:text-brand-terracotta transition-colors py-1 border-b-2 border-transparent hover:border-brand-terracotta">Authentic Menu</a>
+                    <a href="#anna-culture" class="hover:text-brand-terracotta transition-colors py-1 border-b-2 border-transparent hover:border-brand-terracotta">Anna & Culture</a>
+                    <a href="#reviews" class="hover:text-brand-terracotta transition-colors py-1 border-b-2 border-transparent hover:border-brand-terracotta">Reviews</a>
+                    <a href="#contact" class="hover:text-brand-terracotta transition-colors py-1 border-b-2 border-transparent hover:border-brand-terracotta">Contact</a>
+                </nav>
+
+                <!-- Actions: Cart & Auth Buttons -->
+                <div class="flex items-center gap-4">
+                    <!-- Cart Button -->
+                    <button id="openCartBtn" onclick="toggleCartModal(true)" class="relative p-2.5 text-brand-deepred hover:bg-brand-cream rounded-full transition-colors">
+                        <i class="fa-solid fa-basket-shopping text-2xl"></i>
+                        <span id="cartBadge" class="absolute -top-1 -right-1 bg-brand-terracotta text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+
+                    <!-- Auth State Container -->
+                    <div id="authContainer">
+                        <!-- Unauthenticated State -->
+                        <div id="loggedOutButtons" class="flex items-center gap-2">
+                            <button onclick="openAuthModal('login')" class="px-4 py-2 text-sm font-semibold text-brand-deepred hover:text-brand-terracotta transition-colors">Log In</button>
+                            <button onclick="openAuthModal('register')" class="px-5 py-2.2 text-sm font-semibold bg-brand-deepred text-brand-gold hover:bg-brand-terracotta rounded-full shadow-md hover:shadow-lg transition-all border border-brand-gold/40">Register</button>
+                        </div>
+
+                        <!-- Authenticated State (Hidden by default) -->
+                        <div id="loggedInUser" class="hidden flex items-center gap-3">
+                            <div class="flex items-center gap-2 bg-brand-cream px-3 py-1.5 rounded-full border border-brand-gold/50">
+                                <i class="fa-solid fa-circle-user text-brand-deepred text-lg"></i>
+                                <span id="userDisplayName" class="text-sm font-bold text-brand-deepred max-w-[100px] truncate">Guest</span>
+                            </div>
+                            <button onclick="logoutUser()" title="Logout" class="text-xs text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-gray-700 text-2xl focus:outline-none p-1">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-gray-200 px-4 pt-2 pb-4 space-y-2">
+            <a href="#home" onclick="toggleMobileMenu()" class="block py-2 text-gray-800 font-medium hover:text-brand-terracotta">Home</a>
+            <a href="#menu" onclick="toggleMobileMenu()" class="block py-2 text-gray-800 font-medium hover:text-brand-terracotta">Authentic Menu</a>
+            <a href="#anna-culture" onclick="toggleMobileMenu()" class="block py-2 text-gray-800 font-medium hover:text-brand-terracotta">Anna & Culture</a>
+            <a href="#reviews" onclick="toggleMobileMenu()" class="block py-2 text-gray-800 font-medium hover:text-brand-terracotta">Reviews</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block py-2 text-gray-800 font-medium hover:text-brand-terracotta">Contact</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative bg-gradient-to-br from-brand-sand via-orange-50 to-amber-100 py-12 md:py-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Left Hero Text -->
+                <div class="space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-brand-gold/20 text-brand-deepred border border-brand-gold px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase">
+                        <i class="fa-solid fa-award text-brand-brass"></i> Since 1978 • Basavanagudi, Bangalore
+                    </div>
+                    <h1 class="font-heritage text-4xl sm:text-5xl lg:text-6xl text-brand-deepred font-bold leading-tight">
+                        Crispy Dosas & Piping Hot Kaapi Served with <span class="text-brand-leaf underline decoration-brand-gold decoration-wavy">Anna's Warm Love</span>
+                    </h1>
+                    <p class="text-gray-700 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        Step into a traditional South Indian culinary heritage. Experience our signature Crispy Benne Dosa, fresh steaming Idlis with spicy Sambar, served traditionally on fresh green banana leaves.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#menu" class="w-full sm:w-auto text-center bg-brand-deepred hover:bg-brand-terracotta text-brand-gold px-8 py-3.5 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all border border-brand-gold flex items-center justify-center gap-2">
+                            <span>Explore Menu & Order</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#anna-culture" class="w-full sm:w-auto text-center bg-white hover:bg-brand-cream text-brand-deepred border border-brand-brass px-7 py-3.5 rounded-full font-semibold transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-leaf text-brand-leaf"></i>
+                            <span>Banana Leaf Dining Etiquette</span>
+                        </a>
+                    </div>
+
+                    <!-- Quick Highlights Bar -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-amber-200 text-center lg:text-left">
+                        <div>
+                            <p class="font-heritage text-xl font-bold text-brand-deepred">100% Pure</p>
+                            <p class="text-xs text-gray-600">Desi Ghee & Spices</p>
+                        </div>
+                        <div>
+                            <p class="font-heritage text-xl font-bold text-brand-deepred">Traditional</p>
+                            <p class="text-xs text-gray-600">Banana Leaf Feast</p>
+                        </div>
+                        <div>
+                            <p class="font-heritage text-xl font-bold text-brand-deepred">Meter Kaapi</p>
+                            <p class="text-xs text-gray-600">Brass Davara Tumbler</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hero Image Stack -->
+                <div class="relative flex justify-center items-center">
+                    <!-- Decorative Golden Circle -->
+                    <div class="absolute w-72 h-72 sm:w-96 sm:h-96 bg-brand-gold/20 rounded-full blur-2xl -z-10"></div>
+                    
+                    <div class="relative w-full max-w-lg">
+                        <!-- Main Dosa Image -->
+                        <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                            <img src="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&q=80&w=800" alt="Crispy South Indian Benne Masala Dosa" class="w-full h-72 sm:h-96 object-cover" onerror="this.src='https://placehold.co/800x600/5C1D18/D4AF37?text=Crispy+Benne+Dosa'">
+                        </div>
+                        
+                        <!-- Floating Kaapi Overlay -->
+                        <div class="absolute -bottom-6 -left-4 sm:-left-6 bg-white p-3 sm:p-4 rounded-2xl shadow-2xl border-2 border-brand-gold flex items-center gap-3 max-w-xs animate-bounce-slow">
+                            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=200" alt="Filter Coffee Brass Tumbler" class="w-12 h-12 rounded-xl object-cover" onerror="this.src='https://placehold.co/200x200/5C1D18/FFF?text=Kaapi'">
+                            <div>
+                                <p class="text-xs font-bold text-brand-deepred">Authentic Filter Kaapi</p>
+                                <p class="text-[11px] text-gray-500">Piping Hot Brass Meter Service</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Rating Tag -->
+                        <div class="absolute -top-4 -right-4 bg-brand-leaf text-white px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2 border border-green-300">
+                            <i class="fa-solid fa-star text-brand-gold text-sm"></i>
+                            <span class="font-bold text-sm">4.9 / 5.0</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet Anna & Culture Section -->
+    <section id="anna-culture" class="py-16 bg-white border-y border-amber-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-brand-brass font-bold text-xs uppercase tracking-widest block mb-2">Heart of Namma Bengaluru</span>
+                <h2 class="font-heritage text-3xl sm:text-4xl text-brand-deepred font-bold">The Warm 'Anna' Hospitality & Banana Leaf Tradition</h2>
+                <p class="text-gray-600 mt-3 text-sm sm:text-base">In South Indian cafes, "Anna" (Elder Brother) serves you with affection, filling your plate until you are wholehearted and satisfied.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1: Anna Service -->
+                <div class="bg-brand-sand rounded-2xl p-6 border border-amber-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-deepred text-brand-gold flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <h3 class="font-heritage text-xl text-brand-deepred font-bold mb-2">Generous 'Anna' Hospitality</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        From unlimited extra Sambar to crisp Vadas placed with care, our Annas ensure your meal feels like dining at a family feast.
+                    </p>
+                </div>
+
+                <!-- Card 2: Banana Leaf Etiquette -->
+                <div class="banana-leaf-card rounded-2xl p-6 text-white relative overflow-hidden shadow-lg">
+                    <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center text-2xl mb-4">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h3 class="font-heritage text-xl text-brand-gold font-bold mb-2">Banana Leaf Dining Secret</h3>
+                    <p class="text-green-100 text-sm leading-relaxed mb-3">
+                        Fold your leaf top-down towards you after your meal to show supreme satisfaction and respect to Anna!
+                    </p>
+                    <span class="inline-block bg-brand-gold text-brand-deepred text-xs font-bold px-3 py-1 rounded-full">Sacred Culture</span>
+                </div>
+
+                <!-- Card 3: Meter Kaapi Ritual -->
+                <div class="bg-brand-sand rounded-2xl p-6 border border-amber-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-deepred text-brand-gold flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-mug-hot"></i>
+                    </div>
+                    <h3 class="font-heritage text-xl text-brand-deepred font-bold mb-2">Meter Filter Kaapi</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Brewed from fresh Chikmagalur coffee beans and poured between brass Davara-Tumbler from height to create frothy bliss.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Menu Section -->
+    <section id="menu" class="py-16 bg-brand-sand">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-brand-brass font-bold text-xs uppercase tracking-widest block mb-1">Authentic South Indian Menu</span>
+                    <h2 class="font-heritage text-3xl sm:text-4xl text-brand-deepred font-bold">Bangalore Heritage Delicacies</h2>
+                </div>
+                <!-- Categories Bar -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="categoryFilterContainer">
+                    <button onclick="filterCategory('all')" class="category-btn active border px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap bg-brand-deepred text-white shadow-sm">All Delicacies</button>
+                    <button onclick="filterCategory('dosas')" class="category-btn border border-gray-300 bg-white text-gray-700 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap hover:bg-brand-cream">Crispy Dosas</button>
+                    <button onclick="filterCategory('tiffins')" class="category-btn border border-gray-300 bg-white text-gray-700 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap hover:bg-brand-cream">Breakfast & Tiffins</button>
+                    <button onclick="filterCategory('meals')" class="category-btn border border-gray-300 bg-white text-gray-700 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap hover:bg-brand-cream">Banana Leaf Meals</button>
+                    <button onclick="filterCategory('beverages')" class="category-btn border border-gray-300 bg-white text-gray-700 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap hover:bg-brand-cream">Filter Kaapi & Drinks</button>
+                    <button onclick="filterCategory('sweets')" class="category-btn border border-gray-300 bg-white text-gray-700 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap hover:bg-brand-cream">Traditional Sweets</button>
+                </div>
+            </div>
+
+            <!-- Notice Banner for Guests -->
+            <div id="authNoticeBanner" class="mb-6 bg-amber-100 border-l-4 border-brand-brass p-4 rounded-r-lg flex items-center justify-between text-amber-900 text-sm">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-lock text-brand-brass text-lg"></i>
+                    <span><strong>Please Log In or Register</strong> to place an online order for Banana Leaf Dine-in or Takeaway!</span>
+                </div>
+                <button onclick="openAuthModal('login')" class="bg-brand-deepred text-brand-gold px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-brand-terracotta">Log In Now</button>
+            </div>
+
+            <!-- Dynamic Menu Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="menuGrid">
+                <!-- Menu Items injected by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-16 bg-white border-t border-amber-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-brass font-bold text-xs uppercase tracking-widest block mb-1">Loved by Bengaluru</span>
+                <h2 class="font-heritage text-3xl sm:text-4xl text-brand-deepred font-bold">What Our Regulars Say</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-brand-sand p-6 rounded-2xl border border-amber-200 shadow-sm">
+                    <div class="flex items-center gap-1 text-brand-brass mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 text-sm italic mb-4">"Best Benne Masala Dosa in South Bangalore! The red chutney inside is authentic, and Anna refills the coconut chutney without even asking."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-deepred text-brand-gold font-bold flex items-center justify-center text-sm">VR</div>
+                        <div>
+                            <p class="text-xs font-bold text-brand-deepred">Vikram Rao</p>
+                            <p class="text-[11px] text-gray-500">Basavanagudi Resident</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-sand p-6 rounded-2xl border border-amber-200 shadow-sm">
+                    <div class="flex items-center gap-1 text-brand-brass mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 text-sm italic mb-4">"The Filter Kaapi in the brass davara takes me right back to my grandmother's home. Authentic aroma, super piping hot!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-brass text-white font-bold flex items-center justify-center text-sm">AM</div>
+                        <div>
+                            <p class="text-xs font-bold text-brand-deepred">Ananya Murthy</p>
+                            <p class="text-[11px] text-gray-500">IT Professional, ORR</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-sand p-6 rounded-2xl border border-amber-200 shadow-sm">
+                    <div class="flex items-center gap-1 text-brand-brass mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 text-sm italic mb-4">"Sunday Banana Leaf Meal here is an emotion. Fresh hot Akki Roti, Pineapple Sheera, and piping Sambar. 10/10 heritage vibes!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-leaf text-white font-bold flex items-center justify-center text-sm">SK</div>
+                        <div>
+                            <p class="text-xs font-bold text-brand-deepred">Suresh Kumar</p>
+                            <p class="text-[11px] text-gray-500">Food Blogger, Namma Ooru</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Map Section -->
+    <section id="contact" class="py-16 bg-brand-sand">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-brand-brass font-bold text-xs uppercase tracking-widest block mb-1">Visit Namma Cafe</span>
+                    <h2 class="font-heritage text-3xl sm:text-4xl text-brand-deepred font-bold mb-4">Locate Ramanam Cafe</h2>
+                    <p class="text-gray-600 mb-6 text-sm">Located right in the heart of historic South Bangalore. Drop by for early morning hot idlis or evening filter kaapi with friends!</p>
+                    
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-cream text-brand-deepred flex items-center justify-center border border-brand-gold shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-brand-deepred">Address</p>
+                                <p class="text-gray-600">#42, Gandhi Bazaar Main Road, Basavanagudi, Bengaluru, Karnataka 560004</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-cream text-brand-deepred flex items-center justify-center border border-brand-gold shrink-0">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-brand-deepred">Cafe Hours</p>
+                                <p class="text-gray-600">Monday - Sunday: 6:00 AM – 10:30 PM (No Breaks)</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-cream text-brand-deepred flex items-center justify-center border border-brand-gold shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-brand-deepred">Contact & Bulk Orders</p>
+                                <p class="text-gray-600">+91 80 2661 9876 | order@ramanamcafe.in</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cafe Banner Graphic Box -->
+                <div class="bg-white p-6 rounded-3xl shadow-lg border border-amber-200">
+                    <div class="rounded-2xl overflow-hidden relative h-64 bg-slate-200">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=800" alt="Cafe Heritage Ambience" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x400/5C1D18/D4AF37?text=Ramanam+Cafe+Basavanagudi'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-6">
+                            <div class="text-white">
+                                <p class="font-heritage text-xl font-bold">Ramanam Cafe • Gandhi Bazaar</p>
+                                <p class="text-xs text-amber-200">Authentic South Indian Tiffin & Kaapi Joint</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="kolam-bg text-white py-12 border-t-4 border-brand-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+            <div class="inline-flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-brand-gold text-brand-deepred flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-mug-hot"></i>
+                </div>
+                <span class="font-heritage text-2xl font-bold text-brand-gold">Ramanam Cafe Bangalore</span>
+            </div>
+            
+            <p class="text-xs sm:text-sm text-amber-100 max-w-md mx-auto">
+                Celebrating the timeless taste of Karnataka & South Indian breakfast heritage. Prepared with uncompromised quality & served with Anna’s warm smile.
+            </p>
+
+            <div class="flex justify-center gap-6 text-brand-gold text-xl">
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+
+            <p class="text-xs text-amber-200/60 pt-4 border-t border-brand-gold/20">
+                &copy; 2026 Ramanam Cafe Bengaluru. All rights reserved. Designed with Traditional Pride.
+            </p>
+        </div>
+    </footer>
+
+    <!-- AUTHENTICATION MODAL (LOGIN / REGISTER) -->
+    <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl border-2 border-brand-gold">
+            <!-- Close Button -->
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-2 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-full bg-brand-deepred text-brand-gold mx-auto flex items-center justify-center text-xl mb-2">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <h3 id="authModalTitle" class="font-heritage text-2xl text-brand-deepred font-bold">Welcome to Ramanam Cafe</h3>
+                <p id="authModalSubtitle" class="text-xs text-gray-500 mt-1">Log in to place orders and enjoy Anna's quick banana leaf service!</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="handleAuthSubmit(event, 'login')" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Mobile / Email</label>
+                    <input type="text" id="loginId" required placeholder="e.g., 9876543210 or user@gmail.com" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-brass text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-brass text-sm">
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-deepred hover:bg-brand-terracotta text-brand-gold font-bold rounded-xl shadow-md transition-all text-sm border border-brand-gold/40">
+                    Log In to Ramanam Cafe
+                </button>
+                <p class="text-center text-xs text-gray-600 mt-3">
+                    New to Ramanam Cafe? <button type="button" onclick="switchAuthTab('register')" class="text-brand-brass font-bold underline">Register Here</button>
+                </p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" onsubmit="handleAuthSubmit(event, 'register')" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Full Name (Your Name for Anna)</label>
+                    <input type="text" id="regName" required placeholder="e.g., Ramesh Kumar" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-brass text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Mobile Number</label>
+                    <input type="tel" id="regMobile" required placeholder="e.g., 9876543210" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-brass text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+                    <input type="password" id="regPassword" required placeholder="Create password" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-brass text-sm">
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-deepred hover:bg-brand-terracotta text-brand-gold font-bold rounded-xl shadow-md transition-all text-sm border border-brand-gold/40">
+                    Register Account
+                </button>
+                <p class="text-center text-xs text-gray-600 mt-3">
+                    Already registered? <button type="button" onclick="switchAuthTab('login')" class="text-brand-brass font-bold underline">Log In Here</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- SHOPPING CART / ORDER MODAL -->
+    <div id="cartModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-end hidden">
+        <div class="bg-white w-full max-w-md h-full flex flex-col shadow-2xl">
+            <!-- Cart Header -->
+            <div class="p-6 bg-brand-deepred text-white flex items-center justify-between border-b border-brand-gold/30">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-basket-shopping text-brand-gold text-2xl"></i>
+                    <div>
+                        <h3 class="font-heritage text-xl font-bold text-brand-gold">Your Order Plate</h3>
+                        <p class="text-xs text-amber-200">Served fresh on Banana Leaf</p>
+                    </div>
+                </div>
+                <button onclick="toggleCartModal(false)" class="text-amber-200 hover:text-white p-2">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items Container -->
+            <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <!-- Cart items will be generated here -->
+            </div>
+
+            <!-- Service Option & Footer Checkout -->
+            <div class="p-6 bg-brand-sand border-t border-amber-200 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-brand-deepred mb-1">Serving Option</label>
+                    <select id="servingOption" class="w-full p-2.5 bg-white border border-gray-300 rounded-xl text-xs font-semibold text-gray-800">
+                        <option value="banana-leaf">Dine-in: Serve on Hot Banana Leaf at Cafe</option>
+                        <option value="eco-takeaway">Takeaway: Pack in Eco-Friendly Leaf Box</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1 text-sm border-t border-amber-200/60 pt-3">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotal" class="font-semibold">₹0</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Anna's Love & Taxes</span>
+                        <span class="text-brand-leaf font-bold">FREE</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold text-brand-deepred pt-2 border-t border-gray-200">
+                        <span>Total Payable</span>
+                        <span id="cartTotal">₹0</span>
+                    </div>
+                </div>
+
+                <button onclick="checkoutOrder()" class="w-full py-3.5 bg-brand-deepred hover:bg-brand-terracotta text-brand-gold font-bold rounded-xl shadow-lg transition-all text-sm flex items-center justify-center gap-2 border border-brand-gold">
+                    <i class="fa-solid fa-utensils"></i>
+                    <span>Confirm Order with Anna</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Toast Notification Container -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-brand-deepred text-brand-gold px-5 py-3 rounded-2xl shadow-2xl border-2 border-brand-gold flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-xl"></i>
+        <span id="toastMsg" class="text-sm font-semibold">Notification Message</span>
+    </div>
+
+    <script>
+        // Menu Data with high quality images
+        const menuItems = [
+            {
+                id: 1,
+                name: "Bengaluru Benne Masala Dosa",
+                category: "dosas",
+                price: 110,
+                rating: "4.9",
+                image: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&q=80&w=500",
+                desc: "Crispy golden butter dosa spread with spicy garlic red chutney, potato masala, and fresh white butter."
+            },
+            {
+                id: 2,
+                name: "Meter Filter Kaapi",
+                category: "beverages",
+                price: 35,
+                rating: "5.0",
+                image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=500",
+                desc: "Piping hot Chikmagalur chicory-blend coffee froth served in authentic brass davara tumbler."
+            },
+            {
+                id: 3,
+                name: "Button Idli Dip Sambar",
+                category: "tiffins",
+                price: 85,
+                rating: "4.8",
+                image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&q=80&w=500",
+                desc: "12 mini steamed fluffy rice idlis submerged in aromatic hot drumstick sambar topped with pure ghee."
+            },
+            {
+                id: 4,
+                name: "Crispy Medu Vada (2 Pcs)",
+                category: "tiffins",
+                price: 70,
+                rating: "4.7",
+                image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&q=80&w=500",
+                desc: "Golden fried lentil donuts crisp on outside, airy soft inside. Served with fresh coconut chutney."
+            },
+            {
+                id: 5,
+                name: "Banana Leaf South Special Meal",
+                category: "meals",
+                price: 180,
+                rating: "4.9",
+                image: "https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?auto=format&fit=crop&q=80&w=500",
+                desc: "Full traditional spread: Rice, Sambar, Rasam, Palya, Kosambari, Curd, Happala & Sweet Sheera on fresh leaf."
+            },
+            {
+                id: 6,
+                name: "Karnataka Akki Roti (2 Pcs)",
+                category: "meals",
+                price: 100,
+                rating: "4.8",
+                image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&q=80&w=500",
+                desc: "Rice flour bread kneaded with dill leaves, onions, cumin and green chillies. Served with Yennegai."
+            },
+            {
+                id: 7,
+                name: "Chow Chow Bath",
+                category: "tiffins",
+                price: 95,
+                rating: "4.8",
+                image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&q=80&w=500",
+                desc: "The famous Bengaluru combo: One scoop of spicy Khara Bath (Upma) paired with sweet Kesari Bath."
+            },
+            {
+                id: 8,
+                name: "Ghee Roast Paper Dosa",
+                category: "dosas",
+                price: 130,
+                rating: "4.9",
+                image: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&q=80&w=500",
+                desc: "Ultra thin, giant crispy cone dosa roasted thoroughly with aromatic pure desi ghee."
+            },
+            {
+                id: 9,
+                name: "Pineapple Sheera (Kesari)",
+                category: "sweets",
+                price: 60,
+                rating: "4.9",
+                image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&q=80&w=500",
+                desc: "Mouth-melting semolina sweet infused with saffron, fresh pineapple chunks and fried cashews."
+            }
+        ];
+
+        // State Management
+        let currentUser = null; // { name: '', mobile: '' }
+        let cart = []; // Array of { id, quantity }
+        let currentFilter = 'all';
+
+        // Initialize App
+        window.onload = function() {
+            // Check stored auth
+            const storedUser = localStorage.getItem('ramanamUser');
+            if (storedUser) {
+                currentUser = JSON.parse(storedUser);
+                updateAuthUI();
+            }
+            renderMenu();
+        };
+
+        // Render Menu Items
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = '';
+
+            const filtered = currentFilter === 'all' 
+                ? menuItems 
+                : menuItems.filter(item => item.category === currentFilter);
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg border border-amber-200/80 transition-all flex flex-col justify-between group";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/500x300/5C1D18/FFF?text=${encodeURIComponent(item.name)}'">
+                            <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-brand-deepred text-xs font-bold px-2.5 py-1 rounded-full border border-amber-200">
+                                <i class="fa-solid fa-star text-brand-brass mr-1"></i>${item.rating}
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-heritage text-lg font-bold text-brand-deepred leading-snug">${item.name}</h3>
+                            <p class="text-xs text-gray-600 mt-1.5 leading-relaxed">${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0 flex items-center justify-between border-t border-amber-100 mt-2">
+                        <div>
+                            <span class="text-xs text-gray-500 block">Price</span>
+                            <span class="text-lg font-bold text-brand-deepred">₹${item.price}</span>
+                        </div>
+                        <button onclick="addToCart(${item.id})" class="bg-brand-deepred hover:bg-brand-terracotta text-brand-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md transition-all border border-brand-gold/30">
+                            <i class="fa-solid fa-plus"></i> Add item
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Categories
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-deepred', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-white', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-white', 'text-gray-700');
+            event.target.classList.add('bg-brand-deepred', 'text-white', 'shadow-sm');
+            renderMenu();
+        }
+
+        // Cart Functions
+        function addToCart(itemId) {
+            if (!currentUser) {
+                showToast("Please Log In or Register first to add items!", "fa-lock");
+                openAuthModal('login');
+                return;
+            }
+
+            const existing = cart.find(i => i.id === itemId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ id: itemId, quantity: 1 });
+            }
+            updateCartUI();
+            const item = menuItems.find(i => i.id === itemId);
+            showToast(`Added ${item.name} to plate!`, "fa-basket-shopping");
+        }
+
+        function updateCartQuantity(itemId, delta) {
+            const index = cart.findIndex(i => i.id === itemId);
+            if (index !== -1) {
+                cart[index].quantity += delta;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            // Update Badge Count
+            const badge = document.getElementById('cartBadge');
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            badge.innerText = totalCount;
+            if (totalCount > 0) {
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            // Update Modal List
+            const container = document.getElementById('cartItemsContainer');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa-solid fa-leaf text-4xl mb-3 text-brand-leaf/40"></i>
+                        <p class="text-sm font-semibold">Your Banana Leaf plate is empty!</p>
+                        <p class="text-xs mt-1">Explore our delicacies and add delicious items.</p>
+                    </div>
+                `;
+                document.getElementById('cartSubtotal').innerText = '₹0';
+                document.getElementById('cartTotal').innerText = '₹0';
+                return;
+            }
+
+            let subtotal = 0;
+            cart.forEach(cartItem => {
+                const item = menuItems.find(m => m.id === cartItem.id);
+                const itemTotal = item.price * cartItem.quantity;
+                subtotal += itemTotal;
+
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between bg-brand-sand p-3.5 rounded-2xl border border-amber-200";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-xl object-cover" onerror="this.src='https://placehold.co/100x100/5C1D18/FFF?text=Food'">
+                        <div>
+                            <h4 class="text-xs font-bold text-brand-deepred leading-tight">${item.name}</h4>
+                            <p class="text-xs text-gray-500 font-semibold mt-0.5">₹${item.price} each</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden">
+                            <button onclick="updateCartQuantity(${item.id}, -1)" class="px-2 py-1 text-gray-600 hover:bg-gray-100 text-xs font-bold">-</button>
+                            <span class="px-2 text-xs font-bold text-brand-deepred">${cartItem.quantity}</span>
+                            <button onclick="updateCartQuantity(${item.id}, 1)" class="px-2 py-1 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                        </div>
+                        <span class="text-xs font-bold text-brand-deepred min-w-[45px] text-right">₹${itemTotal}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            document.getElementById('cartSubtotal').innerText = `₹${subtotal}`;
+            document.getElementById('cartTotal').innerText = `₹${subtotal}`;
+        }
+
+        function toggleCartModal(show) {
+            const modal = document.getElementById('cartModal');
+            if (show) {
+                updateCartUI();
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function checkoutOrder() {
+            if (cart.length === 0) {
+                showToast("Your plate is empty!", "fa-triangle-exclamation");
+                return;
+            }
+
+            const option = document.getElementById('servingOption').value;
+            const optionText = option === 'banana-leaf' ? "Serve on Banana Leaf at Cafe" : "Eco Takeaway Leaf Box";
+
+            showToast("Order placed with Anna! Steam is on the way 🔥", "fa-circle-check");
+            cart = [];
+            updateCartUI();
+            toggleCartModal(false);
+        }
+
+        // Auth Logic
+        function openAuthModal(tab) {
+            document.getElementById('authModal').classList.remove('hidden');
+            switchAuthTab(tab);
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function switchAuthTab(tab) {
+            const title = document.getElementById('authModalTitle');
+            const subtitle = document.getElementById('authModalSubtitle');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+
+            if (tab === 'login') {
+                title.innerText = "Welcome Back to Ramanam Cafe";
+                subtitle.innerText = "Log in to order delicious banana leaf tiffins!";
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            } else {
+                title.innerText = "Create Your Ramanam Account";
+                subtitle.innerText = "Register to enjoy Anna's quick ordering service.";
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+            }
+        }
+
+        function handleAuthSubmit(e, type) {
+            e.preventDefault();
+            if (type === 'register') {
+                const name = document.getElementById('regName').value;
+                const mobile = document.getElementById('regMobile').value;
+                currentUser = { name, mobile };
+                showToast(`Welcome Anna's Cafe, ${name}! Registered successfully.`, "fa-user-check");
+            } else {
+                const loginId = document.getElementById('loginId').value;
+                const name = loginId.split('@')[0] || "Valued Guest";
+                currentUser = { name: name, mobile: "9876543210" };
+                showToast(`Namaskara, ${currentUser.name}! Logged in.`, "fa-right-to-bracket");
+            }
+
+            localStorage.setItem('ramanamUser', JSON.stringify(currentUser));
+            updateAuthUI();
+            closeAuthModal();
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('ramanamUser');
+            cart = [];
+            updateCartUI();
+            updateAuthUI();
+            showToast("Logged out successfully!", "fa-right-from-bracket");
+        }
+
+        function updateAuthUI() {
+            const loggedOut = document.getElementById('loggedOutButtons');
+            const loggedIn = document.getElementById('loggedInUser');
+            const displayName = document.getElementById('userDisplayName');
+            const noticeBanner = document.getElementById('authNoticeBanner');
+
+            if (currentUser) {
+                loggedOut.classList.add('hidden');
+                loggedIn.classList.remove('hidden');
+                displayName.innerText = currentUser.name;
+                noticeBanner.classList.add('hidden');
+            } else {
+                loggedOut.classList.remove('hidden');
+                loggedIn.classList.add('hidden');
+                noticeBanner.classList.remove('hidden');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Dynamic Toast Notification
+        function showToast(msg, iconClass) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.innerText = msg;
+            toastIcon.className = `fa-solid ${iconClass} text-xl`;
+
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
